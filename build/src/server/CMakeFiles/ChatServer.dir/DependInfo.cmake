@@ -7,10 +7,11 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/rzr/projects/mychat/src/server/chatserver.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/chatserver.cpp.o"
   "/home/rzr/projects/mychat/src/server/chatservice.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/chatservice.cpp.o"
   "/home/rzr/projects/mychat/src/server/db/db.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/db/db.cpp.o"
-  "/home/rzr/projects/mychat/src/server/friendmodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/friendmodel.cpp.o"
   "/home/rzr/projects/mychat/src/server/main.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/main.cpp.o"
-  "/home/rzr/projects/mychat/src/server/offlinemsgmodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/offlinemsgmodel.cpp.o"
-  "/home/rzr/projects/mychat/src/server/usermodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/usermodel.cpp.o"
+  "/home/rzr/projects/mychat/src/server/model/friendmodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/model/friendmodel.cpp.o"
+  "/home/rzr/projects/mychat/src/server/model/groupmodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/model/groupmodel.cpp.o"
+  "/home/rzr/projects/mychat/src/server/model/offlinemsgmodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/model/offlinemsgmodel.cpp.o"
+  "/home/rzr/projects/mychat/src/server/model/usermodel.cpp" "/home/rzr/projects/mychat/build/src/server/CMakeFiles/ChatServer.dir/model/usermodel.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -19,6 +20,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "../include/server"
   "../include/server/db"
+  "../include/server/model"
   "../thirdparty"
   )
 

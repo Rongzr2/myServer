@@ -9,6 +9,7 @@
 #include <mutex>
 #include "offlinemsgmodel.hpp"
 #include "friendmodel.hpp"
+#include "groupmodel.hpp"
 
 using namespace muduo;
 using namespace muduo::net;
@@ -35,6 +36,15 @@ public:
     // 添加好友
     void addFriend(const TcpConnectionPtr &conn, json &js, Timestamp time);
 
+    // 创建群组
+    void createGroup(const TcpConnectionPtr &conn, json &js, Timestamp time);
+
+    // 加入群组
+    void joinGroup(const TcpConnectionPtr &conn, json &js, Timestamp time);
+
+    // 群组聊天业务
+    void groupChat(const TcpConnectionPtr &conn, json &js, Timestamp time);
+
     // 获取消息对应的处理方法
     MsgHandler getHandler(int msgid);
 
@@ -60,6 +70,7 @@ private:
     UserModel _userModel;
     FriendModel _friendModel;
     OfflineMsgModel _offlineMsgModel;
+    GroupModel _groupModel;
 };
 
 #endif

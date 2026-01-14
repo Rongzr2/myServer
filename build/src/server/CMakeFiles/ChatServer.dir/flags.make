@@ -6,5 +6,5 @@ CXX_FLAGS = -g -g
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/rzr/projects/mychat/include -I/home/rzr/projects/mychat/include/server -I/home/rzr/projects/mychat/include/server/db -I/home/rzr/projects/mychat/thirdparty 
+CXX_INCLUDES = -I/home/rzr/projects/mychat/include -I/home/rzr/projects/mychat/include/server -I/home/rzr/projects/mychat/include/server/db -I/home/rzr/projects/mychat/include/server/model -I/home/rzr/projects/mychat/thirdparty 
 
