@@ -11,8 +11,18 @@
 },
 {
   "directory": "/home/rzr/projects/mychat/build/src/server",
+  "command": "/usr/bin/g++   -I/home/rzr/projects/mychat/include -I/home/rzr/projects/mychat/include/server -I/home/rzr/projects/mychat/include/server/db -I/home/rzr/projects/mychat/thirdparty  -g -g   -o CMakeFiles/ChatServer.dir/friendmodel.cpp.o -c /home/rzr/projects/mychat/src/server/friendmodel.cpp",
+  "file": "/home/rzr/projects/mychat/src/server/friendmodel.cpp"
+},
+{
+  "directory": "/home/rzr/projects/mychat/build/src/server",
   "command": "/usr/bin/g++   -I/home/rzr/projects/mychat/include -I/home/rzr/projects/mychat/include/server -I/home/rzr/projects/mychat/include/server/db -I/home/rzr/projects/mychat/thirdparty  -g -g   -o CMakeFiles/ChatServer.dir/main.cpp.o -c /home/rzr/projects/mychat/src/server/main.cpp",
   "file": "/home/rzr/projects/mychat/src/server/main.cpp"
+},
+{
+  "directory": "/home/rzr/projects/mychat/build/src/server",
+  "command": "/usr/bin/g++   -I/home/rzr/projects/mychat/include -I/home/rzr/projects/mychat/include/server -I/home/rzr/projects/mychat/include/server/db -I/home/rzr/projects/mychat/thirdparty  -g -g   -o CMakeFiles/ChatServer.dir/offlinemsgmodel.cpp.o -c /home/rzr/projects/mychat/src/server/offlinemsgmodel.cpp",
+  "file": "/home/rzr/projects/mychat/src/server/offlinemsgmodel.cpp"
 },
 {
   "directory": "/home/rzr/projects/mychat/build/src/server",

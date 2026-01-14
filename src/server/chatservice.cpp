@@ -1,6 +1,10 @@
 #include "chatservice.hpp"
 #include "public.hpp"
+#include <vector>
+#include <string>
 #include <muduo/base/Logging.h>
+
+using namespace std;
 
 ChatService *ChatService::instance()
 {
@@ -11,6 +15,72 @@ ChatService *ChatService::instance()
 // 处理登录业务
 void ChatService::login(const TcpConnectionPtr &conn, json &js, Timestamp time)
 {
+    int id = js["id"].get<int>();
+    string pwd = js["password"];
+
+    User user = _userModel.query(id);
+    if (user.getId() == id && user.getPasswd() == pwd)
+    {
+        if (user.getState() == "online")
+        {
+            json response;
+            response["msgid"] = LOGIN_MSG_ACK;
+            response["errno"] = 2;
+            response["errmsg"] = "该用户已登录, 请重新输入";
+            conn->send(response.dump());
+        }
+        else
+        {
+            {
+                lock_guard<mutex> lock(_connMutex);
+                _userConnMap.insert({id, conn});
+            }
+            // 登录成功, 更新用户状态
+            user.setState("online");
+            _userModel.updateState(user);
+
+            json response;
+            response["msgid"] = LOGIN_MSG_ACK;
+            response["errno"] = 0;
+            response["id"] = user.getId();
+            response["name"] = user.getName();
+
+            // 获取用户离线消息
+            vector<string> vec = _offlineMsgModel.query(id);
+            if (!vec.empty())
+            {
+                response["offlinemsg"] = vec;
+                // 读取完离线消息后, 清空消息
+                _offlineMsgModel.remove(id);
+            }
+
+            // 获取用户好友列表
+            vector<User> vecUser = _friendModel.query(id);
+            if(!vecUser.empty())
+            {
+                vector<string> vec2;
+                for (auto &user : vecUser)
+                {
+                    json js;
+                    js["id"] = user.getId();
+                    js["name"] = user.getName();
+                    js["state"] = user.getState();
+                    vec2.push_back(js.dump());
+                }
+                response["friends"] = vec2;
+            }
+
+            conn->send(response.dump());
+        }
+    }
+    else
+    {
+        json response;
+        response["msgid"] = LOGIN_MSG_ACK;
+        response["errno"] = 1;
+        response["errmsg"] = "用户名或密码错误";
+        conn->send(response.dump());
+    }
 }
 
 // 处理注册业务
@@ -47,6 +117,8 @@ ChatService::ChatService()
 {
     _msgHandlerMap.insert({LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3)});
     _msgHandlerMap.insert({REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3)});
+    _msgHandlerMap.insert({ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3)});
+    _msgHandlerMap.insert({ADD_FRIEND_MSG, std::bind(&ChatService::addFriend, this, _1, _2, _3)});
 }
 
 MsgHandler ChatService::getHandler(int msgid)
@@ -63,4 +135,62 @@ MsgHandler ChatService::getHandler(int msgid)
     {
         return _msgHandlerMap[msgid];
     }
+}
+
+// 客户端异常退出处理
+void ChatService::clientCloseException(const TcpConnectionPtr &conn)
+{
+    User user;
+    {
+        lock_guard<mutex> lock(_connMutex);
+        for (auto it = _userConnMap.begin(); it != _userConnMap.end(); ++it)
+        {
+            if (it->second == conn)
+            {
+                // 从map表中删除用户信息
+                user.setId(it->first);
+                _userConnMap.erase(it);
+                break;
+            }
+        }
+    }
+
+    if (user.getId() != -1)
+    {
+        user.setState("offline");
+        _userModel.updateState(user);
+    }
+}
+
+// 一对一聊天业务
+void ChatService::oneChat(const TcpConnectionPtr &conn, json &js, Timestamp time)
+{
+    int toid = js["toid"].get<int>();
+
+    {
+        lock_guard<mutex> lock(_connMutex);
+        auto it = _userConnMap.find(toid);
+        if (it != _userConnMap.end())
+        {
+            // 用户在线
+            it->second->send(js.dump());
+            return;
+        }
+    }
+    // 用户不在线，存储离线消息
+    _offlineMsgModel.insert(toid, js.dump());
+}
+
+void ChatService::addFriend(const TcpConnectionPtr &conn, json &js, Timestamp time)
+{
+    int userid = js["id"].get<int>();
+    int friendid = js["friendid"].get<int>();
+
+    _friendModel.insert(userid, friendid);
+}
+
+// ctl+c服务器退出后刷新重置用户状态
+void ChatService::reset()
+{
+    _userModel.resetState();
 }

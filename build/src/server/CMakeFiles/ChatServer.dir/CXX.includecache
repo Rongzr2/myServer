@@ -12,9 +12,21 @@ string
 mysql/mysql.h
 -
 
-/home/rzr/projects/mychat/src/server/db/db.cpp
+../include/server/friendmodel.hpp
+user.hpp
+../include/server/user.hpp
+vector
+-
+
+../include/server/user.hpp
+string
+-
+
+/home/rzr/projects/mychat/src/server/friendmodel.cpp
+friendmodel.hpp
+/home/rzr/projects/mychat/src/server/friendmodel.hpp
+db.hpp
+/home/rzr/projects/mychat/src/server/db.hpp
 muduo/base/Logging.h
 -
-db.hpp
-/home/rzr/projects/mychat/src/server/db/db.hpp
 

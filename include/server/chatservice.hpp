@@ -6,6 +6,9 @@
 #include <unordered_map>
 #include "json.hpp"
 #include "usrmodel.hpp"
+#include <mutex>
+#include "offlinemsgmodel.hpp"
+#include "friendmodel.hpp"
 
 using namespace muduo;
 using namespace muduo::net;
@@ -26,7 +29,20 @@ public:
     // 处理注册业务
     void reg(const TcpConnectionPtr &conn, json &js, Timestamp time);
 
+    // 一对一聊天业务
+    void oneChat(const TcpConnectionPtr &conn, json &js, Timestamp time);
+
+    // 添加好友
+    void addFriend(const TcpConnectionPtr &conn, json &js, Timestamp time);
+
+    // 获取消息对应的处理方法
     MsgHandler getHandler(int msgid);
+
+    // ctl+c服务器退出后刷新重置用户状态
+    void reset();
+
+    // 客户端异常退出
+    void clientCloseException(const TcpConnectionPtr &conn);
 
 private:
     ChatService();
@@ -34,8 +50,16 @@ private:
     // 消息 handler, 实现一个消息id对应一个事件处理器
     std::unordered_map<int, MsgHandler> _msgHandlerMap;
 
+    // 用户连接，保存用户连接信息
+    std::unordered_map<int, TcpConnectionPtr> _userConnMap;
+
+    // 加锁, 保证_userConnMap的线程安全
+    std::mutex _connMutex;
+
     // 数据操作类对象
     UserModel _userModel;
+    FriendModel _friendModel;
+    OfflineMsgModel _offlineMsgModel;
 };
 
 #endif
