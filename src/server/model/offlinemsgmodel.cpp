@@ -13,9 +13,17 @@ void OfflineMsgModel::insert(int userid, string msg)
     MySQL mysql;
     if (mysql.connect())
     {
-        mysql.update(sql);
+        bool ret = mysql.update(sql);
+        if (ret) {
+            LOG_INFO << "add OfflineMessage success => sql:" << sql;
+        } else {
+            LOG_INFO << "add OfflineMessage failed => sql:" << sql;
+        }
     }
-    LOG_INFO << "add OfflineMessage error => sql:" << sql;
+    else
+    {
+        LOG_INFO << "connect mysql failed";
+    }
     return;
 }
 
@@ -42,8 +50,15 @@ vector<string> OfflineMsgModel::query(int userid)
             mysql_free_result(res);
             return vec;
         }
+        else
+        {
+            LOG_INFO << "query OfflineMessage failed => sql:" << sql;
+        }
     }
-    LOG_INFO << "query OfflineMessage error => sql:" << sql;
+    else
+    {
+        LOG_INFO << "connect mysql failed";
+    }
     return vec;
 }
 
@@ -52,12 +67,20 @@ void OfflineMsgModel::remove(int userid)
 {
     // 组织sql语句
     char sql[1024] = {0};
-    sprintf(sql, "delete offlinemessage where userid=%d", userid);
+    sprintf(sql, "delete from offlinemessage where userid=%d", userid);
     MySQL mysql;
     if (mysql.connect())
     {
-        mysql.update(sql);
+        bool ret = mysql.update(sql);
+        if (ret) {
+            LOG_INFO << "delete OfflineMessage success => sql:" << sql;
+        } else {
+            LOG_INFO << "delete OfflineMessage failed => sql:" << sql;
+        }
     }
-    LOG_INFO << "update OfflineMessage error => sql:" << sql;
+    else
+    {
+        LOG_INFO << "connect mysql failed";
+    }
     return;
 }

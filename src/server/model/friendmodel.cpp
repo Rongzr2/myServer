@@ -3,15 +3,23 @@
 #include <muduo/base/Logging.h>
 
 void FriendModel::insert(int userid, int friendid)
-{ 
+{
     char sql[1024] = {0};
-    sprintf(sql, "insert into friend(userid, friendid) values('%d', '%d')", userid, friendid);
+    sprintf(sql, "insert ignore into friend(userid, friendid) values('%d', '%d')", userid, friendid);
     MySQL mysql;
     if (mysql.connect())
     {
-        mysql.update(sql);
+        bool ret = mysql.update(sql);
+        if (ret) {
+            LOG_INFO << "add friend success => sql:" << sql;
+        } else {
+            LOG_INFO << "add friend failed => sql:" << sql;
+        }
     }
-    LOG_INFO << "add friend error => sql:" << sql;
+    else
+    {
+        LOG_INFO << "connect mysql failed";
+    }
 }
 
 vector<User> FriendModel::query(int userid)

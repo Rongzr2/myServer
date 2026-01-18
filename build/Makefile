@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rzr/projects/mychat
+CMAKE_SOURCE_DIR = /home/rzr/myserver
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rzr/projects/mychat/build
+CMAKE_BINARY_DIR = /home/rzr/myserver/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rzr/projects/mychat/build/CMakeFiles /home/rzr/projects/mychat/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rzr/myserver/build/CMakeFiles /home/rzr/myserver/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/rzr/projects/mychat/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/rzr/myserver/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,6 +123,19 @@ ChatServer/fast:
 	$(MAKE) -f src/server/CMakeFiles/ChatServer.dir/build.make src/server/CMakeFiles/ChatServer.dir/build
 .PHONY : ChatServer/fast
 
+#=============================================================================
+# Target rules for targets named ChatClient
+
+# Build rule for target.
+ChatClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ChatClient
+.PHONY : ChatClient
+
+# fast build rule for target.
+ChatClient/fast:
+	$(MAKE) -f src/client/CMakeFiles/ChatClient.dir/build.make src/client/CMakeFiles/ChatClient.dir/build
+.PHONY : ChatClient/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -132,6 +145,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... ChatServer"
+	@echo "... ChatClient"
 .PHONY : help
 
 

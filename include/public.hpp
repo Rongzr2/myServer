@@ -8,6 +8,10 @@ enum MSG_TYPE{
     REG_MSG_ACK,    //注册响应
     ONE_CHAT_MSG,
     ADD_FRIEND_MSG, //  添加好友
+    CREATE_GROUP_MSG, // 创建群
+    ADD_GROUP_MSG,   
+    GROUP_CHAT_MSG,
+    LOGINOUT_MSG
 };
 
 #endif
