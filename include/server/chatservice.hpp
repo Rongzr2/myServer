@@ -36,6 +36,9 @@ public:
     // 添加好友
     void addFriend(const TcpConnectionPtr &conn, json &js, Timestamp time);
 
+    // 退出登录
+    void logout(const TcpConnectionPtr &conn, json &js, Timestamp time);
+
     // 创建群组
     void createGroup(const TcpConnectionPtr &conn, json &js, Timestamp time);
 

@@ -4,6 +4,7 @@
 enum MSG_TYPE{
     LOGIN_MSG = 1, // 登录, 调用 登录业务
     LOGIN_MSG_ACK,
+    LOGOUT_MSG,
     REG_MSG,
     REG_MSG_ACK,    //注册响应
     ONE_CHAT_MSG,
@@ -11,7 +12,6 @@ enum MSG_TYPE{
     CREATE_GROUP_MSG, // 创建群
     ADD_GROUP_MSG,   
     GROUP_CHAT_MSG,
-    LOGINOUT_MSG
 };
 
 #endif

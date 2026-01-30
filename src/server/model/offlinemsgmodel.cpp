@@ -9,7 +9,7 @@ void OfflineMsgModel::insert(int userid, string msg)
     long timestamp = time(NULL);
     // 组织sql语句
     char sql[1024] = {0};
-    sprintf(sql, "insert into offlinemessage(userid, message, createtime) values('%d', '%s', '%ld')", userid, msg.c_str(), timestamp);
+    sprintf(sql, "insert into offlinemessage(userid, message, createtime) values(%d, '%s', %ld)", userid, msg.c_str(), timestamp);
     MySQL mysql;
     if (mysql.connect())
     {
@@ -43,7 +43,7 @@ vector<string> OfflineMsgModel::query(int userid)
         if (res)
         {
             MYSQL_ROW row;
-            while ((row = mysql_fetch_row(res)))
+            while ((row = mysql_fetch_row(res)) != nullptr)
             {
                 vec.push_back(row[0]);
             }

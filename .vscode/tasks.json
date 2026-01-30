@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cmake-build-debug", // 必须与 launch.json 的 preLaunchTask 一致
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "cd ${workspaceFolder}/build && cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j4" // 在 build 目录内编译
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always", // 编译时显示终端
+                "focus": false,
+                "panel": "shared"
+            }
+        }
+    ]
+}

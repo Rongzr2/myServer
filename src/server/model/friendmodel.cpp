@@ -5,7 +5,7 @@
 void FriendModel::insert(int userid, int friendid)
 {
     char sql[1024] = {0};
-    sprintf(sql, "insert ignore into friend(userid, friendid) values('%d', '%d')", userid, friendid);
+    sprintf(sql, "insert ignore into friend values(%d, %d)", userid, friendid);
     MySQL mysql;
     if (mysql.connect())
     {
@@ -22,11 +22,12 @@ void FriendModel::insert(int userid, int friendid)
     }
 }
 
+// 返回用户好友列表
 vector<User> FriendModel::query(int userid)
 {
     // 组织sql语句
     char sql[1024] = {0};
-    sprintf(sql, "select a.id,a.name,a.state from user a inner join friend b on b.friendid=a.id where b.friendid=%d", userid);
+    sprintf(sql, "select a.id,a.name,a.state from user a inner join friend b on b.friendid=a.id where b.userid=%d", userid);
 
     MySQL mysql;
     vector<User> vecUser;

@@ -1,1 +1,1 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/ChatClient.dir/main.cpp.o  -o ../../../bin/ChatClient  -lpthread 
+/usr/bin/g++  -g -g -g -O0 -Wall -Wextra  -rdynamic CMakeFiles/ChatClient.dir/main.cpp.o  -o ../../../bin/ChatClient  -lpthread 
