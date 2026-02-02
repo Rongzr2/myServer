@@ -1,6 +1,7 @@
 #ifndef CHATSERVICE_HPP
 #define CHATSERVICE_HPP 
 
+#include <redis.hpp>
 #include <muduo/net/TcpConnection.h>
 #include <functional>
 #include <unordered_map>
@@ -54,6 +55,9 @@ public:
     // ctl+c服务器退出后刷新重置用户状态
     void reset();
 
+    // 从redis消息队列中获取消息
+    void redisNotifyHandler(int userid, string msg);
+
     // 客户端异常退出
     void clientCloseException(const TcpConnectionPtr &conn);
 
@@ -74,6 +78,7 @@ private:
     FriendModel _friendModel;
     OfflineMsgModel _offlineMsgModel;
     GroupModel _groupModel;
+    Redis _redis;
 };
 
 #endif
